@@ -1,0 +1,55 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="foobar.list">
+      <field name="name">foobar list</field>
+      <field name="model">foobar.foobar</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="name_custom"/>
+          <field name="age"/>
+          <field name="age_custom"/>
+          <field name="length"/>
+          <field name="length_custom"/>
+          <field name="question"/>
+          <field name="question_custom"/>
+          <field name="gender"/>
+          <field name="gender_custom"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="foobar.action_window">
+      <field name="name">foobar window</field>
+      <field name="res_model">foobar.foobar</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- server action to the one above -->
+    <record model="ir.actions.server" id="foobar.action_server">
+      <field name="name">foobar server</field>
+      <field name="model_id" ref="model_foobar_foobar"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem name="foobar" id="foobar.menu_root"/>
+    <!-- menu categories -->
+    <menuitem name="Menu 1" id="foobar.menu_1" parent="foobar.menu_root"/>
+    <menuitem name="Menu 2" id="foobar.menu_2" parent="foobar.menu_root"/>
+    <!-- actions -->
+    <menuitem name="List" id="foobar.menu_1_list" parent="foobar.menu_1"
+              action="foobar.action_window"/>
+    <menuitem name="Server to list" id="foobar" parent="foobar.menu_2"
+              action="foobar.action_server"/>
+  </data>
+</odoo>
